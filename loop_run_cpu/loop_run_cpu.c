@@ -14,18 +14,18 @@ long loop(int num_loops){
 	}
 	return ret;
 }
-int main(int argc, char** argv){
+int main(int argc, char* argv[]){
 	cpu_set_t mask;
 	int num_loops;
 	int i;
 	long rst;
-	if (argc < 2){
+	if (argc < 3){
 		printf("usage: %s <num-loops> <cpu_id0> <cpu_id1>...\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 	num_loops = atoi(argv[1]);
 	CPU_ZERO(&mask);
-	for (i = 2; i <= argc; ++i){
+	for (i = 2; i < argc; ++i){
 		CPU_SET(atoi(argv[i]), &mask);
 	}
 	if (0 != sched_setaffinity(0, sizeof(cpu_set_t), &mask)){
